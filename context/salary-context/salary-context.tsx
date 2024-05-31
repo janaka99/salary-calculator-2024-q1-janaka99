@@ -8,20 +8,15 @@ import {
   calGrossDeductions,
   calGrossEarnings,
   calGrossSalaryForEPF,
-  calTakeHomeSalary,
   calTotalEarnings,
   calculateEPFandETF,
   totalEarningForEPF,
   getLocalStorageItem,
   setLocalStorageItem,
   removeLocalStorageItem,
+  netSalary,
 } from "./salary-cal-helper";
-import {
-  BASIC_SALARY_KEY,
-  DEDUCTIONS_KEY,
-  EARNINGS_KEY,
-  SALARY_RESULT_KEY,
-} from "./constants";
+import { BASIC_SALARY_KEY, DEDUCTIONS_KEY, EARNINGS_KEY } from "./constants";
 
 type Props = {
   children: ReactNode;
@@ -32,8 +27,6 @@ export const SalaryContext = createContext<SalaryContextType | undefined>(
 );
 
 const SalaryState = (props: Props) => {
-  const [isLoading, setIsLoading] = useState(true);
-
   const [basicSalary, setBasicSalary] = useState<number | null>(() => {
     const value = getLocalStorageItem(BASIC_SALARY_KEY, null);
     return value;
@@ -74,31 +67,9 @@ const SalaryState = (props: Props) => {
     return value;
   });
 
-  // const [deductions, setDeductions] = useState<IDeductionItem[]>(() => {
-  //   const defaultValue = [
-  //     {
-  //       id: uuidv4(),
-  //       name: null,
-  //       amount: null,
-  //     },
-  //   ];
-  //   if (typeof window !== "undefined") {
-  //     const value = getLocalStorageItem(DEDUCTIONS_KEY, defaultValue);
-  //     return value;
-  //   }
-  //   return []; // Set default value for server-side rendering
-  // });
-
-  // const [deductions, setDeductions] = useState<IDeductionItem[]>([
-  //   {
-  //     id: uuidv4(),
-  //     name: null,
-  //     amount: null,
-  //   },
-  // ]);
-
-  const getSavedData = () => {};
-
+  /**
+   * Reset the current form
+   */
   const resetForm = (): void => {
     setBasicSalary(null);
     setSalaryResult({
@@ -137,7 +108,11 @@ const SalaryState = (props: Props) => {
     setBasicSalary(salary);
   };
 
-  // Manage additional Earnings
+  /**
+   * Update and remove avaiable earnings
+   * @param {IEarningItem} earning - Earning item
+   * @param {string} action - Action to be take
+   */
   const manageEarnings = (
     earning: IEarningItem,
     action: "update" | "remove"
@@ -156,7 +131,9 @@ const SalaryState = (props: Props) => {
     });
   };
 
-  // Add new earning
+  /**
+   * Add new earning to the earnings
+   */
   const addNewEarning = (): void => {
     const newEarning: IEarningItem = {
       id: uuidv4(),
@@ -169,7 +146,11 @@ const SalaryState = (props: Props) => {
     });
   };
 
-  // manage deductions
+  /**
+   * Update and remove deductions earnings
+   * @param {IDeductionItem} deduction - Deduction item
+   * @param {string} action - Action to be take
+   */
   const manageDeductions = (
     deduction: IDeductionItem,
     action: "update" | "remove"
@@ -188,7 +169,9 @@ const SalaryState = (props: Props) => {
     });
   };
 
-  // add new deduction
+  /**
+   * Add new deduction to the earnings
+   */
   const addNewDeduction = (): void => {
     const newDeduction: IDeductionItem = {
       id: uuidv4(),
@@ -200,6 +183,9 @@ const SalaryState = (props: Props) => {
     });
   };
 
+  /**
+   * Calculate the results - `Basic Salary` , `Gross Earnings` , `Gross Deduction` , `Employee EPF` , `Cost to Company` and `Net Salary`
+   */
   const calculateResult = () => {
     //  Get the basic salary
     let basic_salary = basicSalary ? basicSalary : 0;
@@ -213,7 +199,7 @@ const SalaryState = (props: Props) => {
     // get gross reduction
     let gross_deduction = calGrossDeductions(deductions);
 
-    // gross earnings including reductions
+    // gross earnings
     let gross_earnings = calGrossEarnings(total_earnings, gross_deduction);
 
     // calculate gross salary for EPF
@@ -228,12 +214,7 @@ const SalaryState = (props: Props) => {
 
     const APIT = calAPIT(gross_earnings);
 
-    const take_home_salary = calTakeHomeSalary(
-      gross_earnings,
-      gross_deduction,
-      emp_epf_8,
-      APIT
-    );
+    const take_home_salary = netSalary(gross_earnings, emp_epf_8, APIT);
 
     const ctc = calCostToCompany(gross_earnings, emp_epf_12, emp_etf_3);
 
@@ -252,13 +233,11 @@ const SalaryState = (props: Props) => {
 
   useEffect(() => {
     calculateResult();
-  }, [basicSalary, earnings, deductions]);
 
-  useEffect(() => {
     setLocalStorageItem(BASIC_SALARY_KEY, basicSalary);
     setLocalStorageItem(EARNINGS_KEY, earnings);
     setLocalStorageItem(DEDUCTIONS_KEY, deductions);
-  }, [basicSalary, earnings, deductions, salaryResult]);
+  }, [basicSalary, earnings, deductions]);
 
   return (
     <SalaryContext.Provider

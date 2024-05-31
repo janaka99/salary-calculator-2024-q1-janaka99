@@ -8,6 +8,5 @@ export const TAX_BRACKETS: ITaxBracket[] = [
 ];
 
 export const BASIC_SALARY_KEY = "janaka_99_salary_cal_basicSalary";
-export const SALARY_RESULT_KEY = "janaka_99_salary_cal_salaryResult";
 export const EARNINGS_KEY = "janaka_99_salary_cal_earnings";
 export const DEDUCTIONS_KEY = "janaka_99_salary_cal_deductions";

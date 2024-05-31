@@ -1,7 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 import {
   calTotalEarnings,
-  calGrossDeductions,
   calGrossEarnings,
   totalEarningForEPF,
   calculateEPFandETF,
@@ -9,7 +8,6 @@ import {
   calAPIT,
   netSalary,
   calCostToCompany,
-  calTakeHomeSalary,
 } from "./../context/salary-context/salary-cal-helper";
 
 describe("Salary Calculation Functions", () => {
@@ -68,8 +66,7 @@ describe("Salary Calculation Functions", () => {
 
   test("calculates EPF and ETF amount based on total earning and percentage - 0%", () => {
     const totalEarningForEPF = 12000;
-    const percentage = 0; // 10%
-    const expectedAmount = totalEarningForEPF;
+    const percentage = 0;
     expect(calculateEPFandETF(totalEarningForEPF, percentage)).toBe(0);
   });
 
@@ -137,16 +134,12 @@ describe("Salary Calculation Functions", () => {
     );
   });
 
-  // calTakeHomeSalary tests
+  // netSalary tests
   test("calculates take-home salary by subtracting deductions from gross earnings", () => {
     const gross_earnings = 60000;
-    const gross_deduction = 5000;
     const emp_epf = 3000;
     const APIT = 1500;
-    const expectedTakeHome =
-      gross_earnings - (gross_deduction + emp_epf + APIT);
-    expect(
-      calTakeHomeSalary(gross_earnings, gross_deduction, emp_epf, APIT)
-    ).toBe(expectedTakeHome);
+    const expectedTakeHome = gross_earnings - (emp_epf + APIT);
+    expect(netSalary(gross_earnings, emp_epf, APIT)).toBe(expectedTakeHome);
   });
 });

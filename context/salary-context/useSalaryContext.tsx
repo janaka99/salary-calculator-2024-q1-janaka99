@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { SalaryContext } from "@/context/salary-context/salary-context";
 
-// Custom hook for accessing salary context
 const useSalaryContext = (): SalaryContextType => {
   const context = useContext(SalaryContext);
 
