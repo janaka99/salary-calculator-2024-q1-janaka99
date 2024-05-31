@@ -1,9 +1,5 @@
 "use client";
-import {
-  IDeductionItem,
-  SalaryContext,
-} from "@/context/salary-context/salary-context";
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import Input from "../input/Input";
 import styled from "styled-components";
 import Button from "../Button/Button";

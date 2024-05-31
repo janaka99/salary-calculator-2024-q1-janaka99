@@ -7,9 +7,7 @@ import Title from "@/components/commom/title/Title";
 import useSalaryContext from "@/context/salary-context/useSalaryContext";
 import styled from "styled-components";
 
-type Props = {};
-
-const SalaryResult = (props: Props) => {
+const SalaryResult = () => {
   const { salaryResult } = useSalaryContext();
 
   return (

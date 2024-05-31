@@ -1,9 +1,5 @@
 "use client";
-import {
-  IEarningItem,
-  SalaryContext,
-} from "@/context/salary-context/salary-context";
-import React, { useContext, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Input from "../input/Input";
 import Button from "../Button/Button";

@@ -1,13 +1,9 @@
 "use client";
 import InputTitle from "@/components/commom/input-title/input-title";
 import Input from "@/components/commom/input/Input";
-import { SalaryContext } from "@/context/salary-context/salary-context";
 import useSalaryContext from "@/context/salary-context/useSalaryContext";
-import { useContext } from "react";
 
-type Props = {};
-
-const BasicSalary = (props: Props) => {
+const BasicSalary = () => {
   const { basicSalary, setBaseSalary } = useSalaryContext();
 
   const handleBasicSalaryChange = (

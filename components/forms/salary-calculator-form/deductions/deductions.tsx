@@ -4,11 +4,9 @@ import Link from "@/components/commom/Link/Link";
 import DeductionItem from "@/components/commom/deduction-item/deduction-item";
 import InputTitle from "@/components/commom/input-title/input-title";
 import useSalaryContext from "@/context/salary-context/useSalaryContext";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-type Props = {};
-
-const Deductions = (props: Props) => {
+const Deductions = () => {
   const { deductions, addNewDeduction } = useSalaryContext();
   const [deductionsList, setDeductionsList] = useState<IDeductionItem[]>([]);
 

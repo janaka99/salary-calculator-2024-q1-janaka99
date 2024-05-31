@@ -1,14 +1,12 @@
 "use client";
 import EarningItem from "@/components/commom/earning-item/earning-item";
 import InputTitle from "@/components/commom/input-title/input-title";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Link from "../../../commom/Link/Link";
 import useSalaryContext from "@/context/salary-context/useSalaryContext";
 
-type Props = {};
-
-const Earnings = (props: Props) => {
+const Earnings = () => {
   const { earnings, addNewEarning } = useSalaryContext();
   const [earningsList, setEarningsList] = useState<IEarningItem[]>([]);
 

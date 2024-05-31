@@ -4,14 +4,10 @@ import BasicSalary from "./basic-salary/basic-salary";
 import Earnings from "./earnings/earnings";
 import Deductions from "./deductions/deductions";
 import Title from "@/components/commom/title/Title";
-import { useContext } from "react";
-import { SalaryContext } from "@/context/salary-context/salary-context";
 import Link from "@/components/commom/Link/Link";
 import useSalaryContext from "@/context/salary-context/useSalaryContext";
 
-type Props = {};
-
-const SalaryCalculatorForm = (props: Props) => {
+const SalaryCalculatorForm = () => {
   const { resetForm } = useSalaryContext();
 
   return (
